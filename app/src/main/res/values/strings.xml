@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Context Recognition User Test</string>
+
+
+    <string name="action_settings">Info</string>
+    <!-- labels -->
+    <string name="current_information">Current Information</string>
+    <string name="activity">Activity:</string>
+    <string name="location">Location:</string>
+    <string name="time">Time:</string>
+    <string name="weather">Weather:</string>
+    <string name="monitoring">Monitoring Geofences:</string>
+    <string name="current_progress">Current Progress</string>
+    <!-- buttons -->
+    <string name="manage_geofences">Manage Geofences</string>
+    <string name="log">Open Log</string>
+    <string name="test_set_one">Test Set 1</string>
+    <string name="test_set_two">Test Set 2</string>
+</resources>

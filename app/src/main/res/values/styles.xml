@@ -1,0 +1,52 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light">
+
+    </style>
+
+    <style name="Heading">
+        <item name="android:textSize">24dp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:paddingLeft">12dp</item>
+        <item name="android:layout_marginBottom">-10dp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Heading.Green">
+        <item name="android:textColor">#ffb7ec00</item>
+    </style>
+
+    <style name="Heading.Red">
+        <item name="android:textColor">#ffeb4c4c</item>
+    </style>
+
+    <style name="Label">
+        <item name="android:textSize">20dp</item>
+        <item name="android:textColor">#ffcfe680</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:paddingLeft">12dp</item>
+        <item name="android:paddingRight">12dp</item>
+    </style>
+
+    <style name="DropShadow">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">3dp</item>
+    </style>
+    <style name="DropShadow.Purple">
+        <item name="android:background">#ffbe64a6</item>
+    </style>
+
+    <style name="DropShadow.Yellow">
+        <item name="android:background">#ffeed640</item>
+    </style>
+
+    <style name="Button">
+        <item name="android:background">?android:attr/selectableItemBackground</item>
+        <item name="android:textColor">#E2FFE7</item>
+    </style>
+
+
+</resources>

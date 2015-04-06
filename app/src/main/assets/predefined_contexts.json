@@ -1,0 +1,113 @@
+[
+	{
+		"mName" : "Walking",
+		"mActivity" : "WALKING",
+		"mLocation" : {},
+		"mTime" : {},
+		"mDuration":  "0",
+		"mWeather" : "NONE",
+		"mTemperature" : "NONE",
+		"mSeason" : "NONE"
+	},
+	{
+		"mName" : "Running",
+		"mActivity" : "RUNNING",
+		"mLocation" : {},
+		"mTime" : {},
+		"mDuration":  "0",
+		"mWeather" : "NONE",
+		"mTemperature" : "NONE",
+		"mSeason" : "NONE"
+	},
+	{
+		"mName" : "Commuting",
+		"mActivity" : "COMMUTING",
+		"mLocation" : {},
+		"mTime" : {},
+		"mDuration":  "0",
+		"mWeather" : "NONE",
+		"mTemperature" : "NONE",
+		"mSeason" : "NONE"
+	},
+	{
+		"mName" : "Travelling",
+		"mActivity" : "TRAVELLING",
+		"mLocation" : {},
+		"mTime" : {},
+		"mDuration":  "0",
+		"mWeather" : "NONE",
+		"mTemperature" : "NONE",
+		"mSeason" : "NONE"
+	},
+	{
+		"mName" : "Home",
+		"mActivity" : "NONE",
+		"mLocation" : {},
+		"mTime" : {},
+		"mDuration":  "0",
+		"mWeather" : "NONE",
+		"mTemperature" : "NONE",
+		"mSeason" : "NONE"
+	},
+	{
+		"mName" : "Work",
+		"mActivity" : "NONE",
+		"mLocation" : {},
+		"mTime" : {},
+		"mDuration":  "0",
+		"mWeather" : "NONE",
+		"mTemperature" : "NONE",
+		"mSeason" : "NONE"
+	},
+	{
+		"mName" : "Rainy",
+		"mActivity" : "NONE",
+		"mLocation" : {},
+		"mTime" : {},
+		"mDuration":  "0",
+		"mWeather" : "RAINY",
+		"mTemperature" : "NONE",
+		"mSeason" : "NONE"
+	},
+	{
+		"mName" : "Sunny",
+		"mActivity" : "NONE",
+		"mLocation" : {},
+		"mTime" : {},
+		"mDuration":  "0",
+		"mWeather" : "SUNNY",
+		"mTemperature" : "NONE",
+		"mSeason" : "NONE"
+	},
+	{
+		"mName" : "Cloudy",
+		"mActivity" : "NONE",
+		"mLocation" : {},
+		"mTime" : {},
+		"mDuration":  "0",
+		"mWeather" : "CLOUDY",
+		"mTemperature" : "NONE",
+		"mSeason" : "NONE"
+	},
+	{
+		"mName" : "Morning",
+		"mActivity" : "NONE",
+		"mLocation" : {},
+		"mTime" : {"mType" : "DAY_SECTION", "mRawData" : "MORNING"},
+		"mDuration":  "0",
+		"mWeather" : "NONE",
+		"mTemperature" : "NONE",
+		"mSeason" : "NONE"
+	},
+	{
+		"mName" : "Night",
+		"mActivity" : "NONE",
+		"mLocation" : {},
+		"mTime" : {"mType" : "DAY_SECTION", "mRawData" : "NIGHT"},
+		"mDuration":  "0",
+		"mWeather" : "NONE",
+		"mTemperature" : "NONE",
+		"mSeason" : "NONE"
+	}
+
+]
