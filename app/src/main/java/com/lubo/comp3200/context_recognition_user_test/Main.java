@@ -7,6 +7,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 
 public class Main extends ActionBarActivity {
@@ -22,26 +23,43 @@ public class Main extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ContextStore.getInstance().initialSetup(this);
         mPrefs = this.getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
-       /* if (checkFirstStart()){
-            SharedPreferences.Editor editor = mPrefs.edit();
-            editor.putString(AppParams.KEY_FIRST_START, "True");
-            editor.apply();
-        }*/
         mParser = new ContextParser(this);
+        if (checkFirstStart()){
+            SharedPreferences.Editor editor = mPrefs.edit();
+            editor.putString(AppParams.KEY_FIRST_START, "False");
+            editor.apply();
+            FirstTimeSetup setup = new FirstTimeSetup();
+            setup.execute();
+        }
+
         mScheduler = new Scheduler(this);
 
-        Intent intent = new Intent(this, TestService.class);
-        startService(intent);
 
     }
 
     // Check if this is the first time the app was ever started
     public boolean checkFirstStart() {
+        SharedPreferences.Editor editor = mPrefs.edit();
+        editor.remove(AppParams.KEY_FIRST_START);
+        editor.apply();
         if (mPrefs.getString(AppParams.KEY_FIRST_START, AppParams.INVALID_STRING_VALUE) != AppParams.INVALID_STRING_VALUE) {
             return false;
         }
         return true;
+    }
+
+    // Open the Add Context activity
+    public void addContext(View view) {
+        Intent intent = new Intent(this, AddContext.class);
+        startActivity(intent);
+    }
+
+    // Open the View Contexts activity
+    public void viewContexts(View view) {
+        Intent intent = new Intent(this, ViewContexts.class);
+        startActivity(intent);
     }
 
     @Override

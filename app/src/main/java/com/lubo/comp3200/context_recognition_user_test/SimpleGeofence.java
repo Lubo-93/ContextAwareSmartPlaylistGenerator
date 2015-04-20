@@ -1,6 +1,5 @@
 package com.lubo.comp3200.context_recognition_user_test;
 
-import com.google.android.gms.location.Geofence;
 
 /**
  * A single Geofence object, defined by its center and radius.

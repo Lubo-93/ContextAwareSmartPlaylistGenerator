@@ -1,5 +1,6 @@
 package com.lubo.comp3200.context_recognition_user_test;
 
+
 /**
  * Created by Lubo on 18.1.2015.
  *
@@ -15,16 +16,113 @@ public class AppParams {
     public enum REQUEST_TYPE {ADD, REMOVE}
 
     // Types of activities
-    public enum ACTIVITY {WALKING, RUNNING, CYCLING, COMMUTING, TRAVELLING, NONE}
+    public enum Activity {
+        WALKING ("Walking"),
+        RUNNING ("Running"),
+        CYCLING ("Cycling"),
+        COMMUTING ("Commuting"),
+        TRAVELLING ("Travelling"),
+        NONE ("None");
+
+        private String name;
+
+        private Activity(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public String toString() {
+            return name;
+        }
+    }
 
     // Types of weather
-    public enum WEATHER {RAINY, STORMY, SUNNY, CLOUDY, SNOW, NONE}
+    public enum Weather {
+        SUNNY ("Sunny"),
+        CLOUDY ("Cloudy"),
+        RAINY ("Rainy"),
+        STORMY ("Stormy"),
+        SNOW ("Snow"),
+        NONE ("None");
+
+        private String name;
+
+        private Weather(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public String toString() {
+            return name;
+        }
+
+    }
 
     // Types of Time objects
-    public enum TYPE_OF_TIME {DAY_SECTION, TIME, DATE, TIME_DATE, TIME_RANGE, TIME_RANGE_DATE, NONE}
+    public enum TypeOfTime {DAY_SECTION, TIME, DATE, TIME_DATE, TIME_RANGE, TIME_RANGE_DATE, NONE}
 
     // Pre-defined parts of the day for contexts
-    public enum PART_OF_DAY {MORNING, NOON, AFTERNOON, EVENING, NIGHT}
+    public enum PartOfDay {
+        MORNING ("Morning"),
+        NOON ("Noon"),
+        AFTERNOON ("Afternoon"),
+        EVENING ("Evening"),
+        NIGHT ("Night"),
+        NONE ("None");
+
+        private String name;
+
+        private PartOfDay(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public String toString() {
+            return name;
+        }
+
+    }
+
+    // Pre-defined locations
+    public enum LOCATION {HOME, WORK, NONE}
+
+    // Pre-defined temperatures
+    public enum Temperature {
+        HOT ("Hot"),
+        COLD ("Cold"),
+        NONE ("None");
+
+        private String name;
+
+        private Temperature(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public String toString() {
+            return name;
+        }
+    }
+
+    // Seasons
+    public enum Season {
+        SPRING ("Spring"),
+        SUMMER ("Summer"),
+        AUTUMN ("Autumn"),
+        WINTER ("Winter"),
+        NONE ("None");
+
+        private String name;
+
+        private Season(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public String toString() {
+            return name;
+        }
+    }
 
     // Day sections
     public static int MORNING_START = 6;
@@ -38,14 +136,8 @@ public class AppParams {
     public static int NIGHT_START = 00;
     public static int NIGHT_END = 5;
 
-    // Pre-defined temperatures
-    public enum TEMPERATURE {HOT, COLD, NONE}
-
     // Threshold that determine whether it's hot or cold
     public static double TEMP_THRESHOLD = 20.0;
-
-    // Seasons
-    public enum SEASON {SPRING, SUMMER, AUTUMN, WINTER, NONE}
 
     public static int SPRING_START = 2;
     public static int SPRING_END = 4;
@@ -55,6 +147,9 @@ public class AppParams {
     public static int AUTUMN_END = 10;
     public static int WINTER_START = 11;
     public static int WINTER_END = 1;
+
+    public final static String SPECIFIC_TIME = "Specific time";
+    public final static String SPECIFIC_TIME_RANGE = "Specific range";
 
     // Update interval for activity scanning
     public final static int ACTIVITY_UPDATE_INTERVAL = 30000;
@@ -83,11 +178,22 @@ public class AppParams {
     public static String WEATHER_CONDITIONS_QUERY = "conditions/q/";
 
     // PendingIntent request codes
-    public static final int MORNING_ALARM_INTENT = 0000;
-    public static final int NOON_ALARM_INTENT = 1111;
-    public static final int AFTERNOON_ALARM_INTENT = 2222;
-    public static final int EVENING_ALARM_INTENT = 3333;
-    public static final int NIGHT_ALARM_INTENT = 4444;
+    public static final int MORNING_ALARM_CODE = 0000;
+    public static final int NOON_ALARM_CODE = 1111;
+    public static final int AFTERNOON_ALARM_CODE = 2222;
+    public static final int EVENING_ALARM_CODE = 3333;
+    public static final int NIGHT_ALARM_CODE = 4444;
+    public static final int TIME_ALARM_CODE = 5555;
+
+    // Intent fiters for AlarmReceiver
+    public static final String MORNING_ALARM_FILTER = "com.lubo.comp3200.context_recognition_user_test.MORNING_ALARM";
+    public static final String NOON_ALARM_FILTER = "com.lubo.comp3200.context_recognition_user_test.NOON_ALARM";
+    public static final String AFTERNOON_ALARM_FILTER = "com.lubo.comp3200.context_recognition_user_test.AFTERNOON_ALARM";
+    public static final String EVENING_ALARM_FILTER = "com.lubo.comp3200.context_recognition_user_test.EVENING_ALARM";
+    public static final String NIGHT_ALARM_FILTER = "com.lubo.comp3200.context_recognition_user_test.NIGHT_ALARM";
+    public static final String TIME_ALARM_FILTER = "com.lubo.comp3200.context_recognition_user_test.TIME_ALARM";
+
+    public static final String SELECTED_CONTEXT_NAME = "SELECTED_CONTEXT_NAME";
 
     // Intent actions
     public static final String ACTION_CONNECTION_ERROR = "ACTION_CONNECTION_ERROR";

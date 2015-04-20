@@ -14,25 +14,88 @@ import java.util.Date;
 public class Time {
 
     // Parameters
-    private AppParams.PART_OF_DAY mPartOfDay;
-    private String mTime;
-    private String mRange;
-    private Date mDate;
+    private AppParams.PartOfDay mPartOfDay;
+    private int mTimeHour;
+    private int mTimeMins;
+    private int mRangeHour;
+    private int mRangeMins;
+    private int mYear;
+    private int mMonth;
+    private int mDay;
     // Type of Time
-    private AppParams.TYPE_OF_TIME mType;
-    // The actual user input; will be parsed based on the type
-    private String mRawData;
+    private AppParams.TypeOfTime mType;
 
-    public Time (AppParams.TYPE_OF_TIME type, String data) {
+    public Time (AppParams.TypeOfTime type) {
         mType = type;
-        mRawData = data;
+    }
+    
+    // Getters
+    public AppParams.TypeOfTime getType() {
+        return mType;
     }
 
-    public AppParams.PART_OF_DAY getPartOfDay() {
+    public AppParams.PartOfDay getPartOfDay() {
         return mPartOfDay;
     }
 
-    public AppParams.TYPE_OF_TIME getType() {
-        return mType;
+    public int getTimeHour() {
+        return mTimeHour;
+    }
+
+    public int getTimeMins() {
+        return mTimeMins;
+    }
+
+    public int getRangeHour() {
+        return mRangeHour;
+    }
+
+    public int getRangeMins() {
+        return mRangeMins;
+    }
+
+    public int getYear() {
+        return mYear;
+    }
+
+    public int getMonth() {
+        return mMonth;
+    }
+
+    public int getDay() {
+        return mDay;
+    }
+    
+    // Setters
+    public void setPartOfDay(AppParams.PartOfDay mPartOfDay) {
+        this.mPartOfDay = mPartOfDay;
+    }
+
+    public void setTimeHour(int mTimeHour) {
+        this.mTimeHour = mTimeHour;
+    }
+
+    public void setTimeMins(int mTimeMins) {
+        this.mTimeMins = mTimeMins;
+    }
+
+    public void setRangeHour(int mRangeHour) {
+        this.mRangeHour = mRangeHour;
+    }
+
+    public void setRangeMins(int mRangeMins) {
+        this.mRangeMins = mRangeMins;
+    }
+
+    public void setYear(int mYear) {
+        this.mYear = mYear;
+    }
+
+    public void setMonth(int mMonth) {
+        this.mMonth = mMonth;
+    }
+
+    public void setDay(int mDay) {
+        this.mDay = mDay;
     }
 }

@@ -25,6 +25,7 @@ public class Logger {
     // The name for the SharedPreferences
     private final String SHARED_PREFERENCES = "LoggerPrefs";
     // Http client and response for sending the logs to a server
+    // TODO: deprecated
     private HttpClient mClient;
     private HttpResponse mResponse;
 

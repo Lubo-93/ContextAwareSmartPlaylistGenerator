@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item type="id" name="add_context_time_view" />
+    <item type="id" name="add_context_range_view" />
+    <item type="id" name="add_context_date_view" />
+</resources>

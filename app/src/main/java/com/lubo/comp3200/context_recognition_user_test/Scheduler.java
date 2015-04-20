@@ -13,6 +13,7 @@ public class Scheduler {
 
     private ActivityRecognitionScan mActivityScanner;
     private WeatherRecognitonScan mWeatherScan;
+    private TimeManager mTimeManager;
 
     private final Activity mCallingActivity;
 
@@ -20,13 +21,13 @@ public class Scheduler {
     // If there is no active context, this will be the initial one
     private Context mInitialContext;
 
-    private AppParams.ACTIVITY mCurrentContextActivity;
-    private AppParams.WEATHER mCurrentContextWeather;
+    private AppParams.Activity mCurrentContextActivity;
+    private AppParams.Weather mCurrentContextWeather;
 
 
     public Scheduler(Activity activityContext) {
         mCallingActivity = activityContext;
-        mContextStore = new ContextStore(mCallingActivity);
+        mContextStore = ContextStore.getInstance();
         if (!checkActiveContext()) {
             mInitialContext = new Context();
         }

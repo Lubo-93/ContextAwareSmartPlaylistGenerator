@@ -64,9 +64,8 @@ public class ContextParser {
 
     // Saves the extracted context in SharedPreferences
     public void saveContexts() {
-        ContextStore store = new ContextStore(mActivity);
         for (Context c : mContexts){
-            store.saveContext(c);
+            ContextStore.getInstance().saveContext(c);
         }
     }
 

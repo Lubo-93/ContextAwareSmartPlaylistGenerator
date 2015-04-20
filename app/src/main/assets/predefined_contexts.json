@@ -3,7 +3,10 @@
 		"mName" : "Walking",
 		"mActivity" : "WALKING",
 		"mLocation" : {},
-		"mTime" : {},
+		"mTime" : {
+		            "mPartOfDay" : "NONE",
+		            "mType" : "DAY_SECTION"
+		          },
 		"mDuration":  "0",
 		"mWeather" : "NONE",
 		"mTemperature" : "NONE",

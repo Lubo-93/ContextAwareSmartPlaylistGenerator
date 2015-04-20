@@ -8,13 +8,13 @@ package com.lubo.comp3200.context_recognition_user_test;
  */
 public class ContextParams {
 
-    public static AppParams.ACTIVITY CURRENT_ACTIVITY;
-    public static AppParams.WEATHER CURRENT_WEATHER;
+    public static AppParams.Activity CURRENT_ACTIVITY;
+    public static AppParams.Weather CURRENT_WEATHER;
     public static SimpleGeofence CURRENT_LOCATION;
     public static Time CURRENT_TIME;
-    public static AppParams.PART_OF_DAY CURRENT_DAY_PART;
-    public static AppParams.TEMPERATURE CURRENT_TEMPERATURE;
-    public static AppParams.SEASON CURRENT_SEASON;
+    public static AppParams.PartOfDay CURRENT_DAY_PART;
+    public static AppParams.Temperature CURRENT_TEMPERATURE;
+    public static AppParams.Season CURRENT_SEASON;
 
 
 

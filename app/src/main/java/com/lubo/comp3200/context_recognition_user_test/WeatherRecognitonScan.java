@@ -24,9 +24,9 @@ public class WeatherRecognitonScan implements
     // Calling activity
     private Activity mActivity;
     // The weather of active context
-    private AppParams.WEATHER mCurrentWeather;
+    private AppParams.Weather mCurrentWeather;
 
-    public WeatherRecognitonScan(Activity activityContext, AppParams.WEATHER currentWeather){
+    public WeatherRecognitonScan(Activity activityContext, AppParams.Weather currentWeather){
         mActivity = activityContext;
         mCurrentWeather = currentWeather;
         mLocationClient = new LocationClient(mActivity, this, this);

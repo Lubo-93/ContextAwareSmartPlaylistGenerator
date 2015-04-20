@@ -7,24 +7,22 @@ public class Context {
 
     // Context parameters
     private String mName;
-    private AppParams.ACTIVITY mActivity;
+    private AppParams.Activity mActivity;
     private SimpleGeofence mLocation;
     private Time mTime;
-    private AppParams.PART_OF_DAY mPartOfDay;
     private int mDuration;
-    private AppParams.WEATHER mWeather;
-    private AppParams.TEMPERATURE mTemperature;
-    private AppParams.SEASON mSeason;
-
+    private AppParams.Weather mWeather;
+    private AppParams.Temperature mTemperature;
+    private AppParams.Season mSeason;
 
     public Context(String mName,
-                   AppParams.ACTIVITY mActivity,
+                   AppParams.Activity mActivity,
                    SimpleGeofence mLocation,
                    Time mTime,
                    int mDuration,
-                   AppParams.WEATHER mWeather,
-                   AppParams.TEMPERATURE mTemperature,
-                   AppParams.SEASON mSeason) {
+                   AppParams.Weather mWeather,
+                   AppParams.Temperature mTemperature,
+                   AppParams.Season mSeason) {
 
         this.mName = mName;
         this.mActivity = mActivity;
@@ -34,18 +32,18 @@ public class Context {
         this.mWeather = mWeather;
         this.mTemperature = mTemperature;
         this.mSeason = mSeason;
-        if (mTime.getType() == AppParams.TYPE_OF_TIME.valueOf("DAY_SECTION")) {
-            mPartOfDay = mTime.getPartOfDay();
-        }else {
-            mPartOfDay = null;
-        }
     }
 
     // Alternative constructor for the initial context
     public Context(){
 
     }
-    
+
+    @Override
+    public String toString() {
+        return mName;
+    }
+
     // Getters
     public String getName(){
         return mName;
@@ -59,26 +57,25 @@ public class Context {
     public int getDuration() {
         return mDuration;
     }
-    public AppParams.WEATHER getWeather() {
+    public AppParams.Weather getWeather() {
         return mWeather;
     }
-    public AppParams.TEMPERATURE getTemperature() {
+    public AppParams.Temperature getTemperature() {
         return mTemperature;
     }
-    public AppParams.SEASON getSeason() {
+    public AppParams.Season getSeason() {
         return mSeason;
     }
-    public AppParams.ACTIVITY getActivity() {
+    public AppParams.Activity getActivity() {
         return mActivity;
     }
 
     // Setters
-
     public void setName(String mName) {
         this.mName = mName;
     }
 
-    public void setActivity(AppParams.ACTIVITY mActivity) {
+    public void setActivity(AppParams.Activity mActivity) {
         this.mActivity = mActivity;
     }
 
@@ -94,15 +91,16 @@ public class Context {
         this.mDuration = mDuration;
     }
 
-    public void setWeather(AppParams.WEATHER mWeather) {
+    public void setWeather(AppParams.Weather mWeather) {
         this.mWeather = mWeather;
     }
 
-    public void setTemperature(AppParams.TEMPERATURE mTemperature) {
+    public void setTemperature(AppParams.Temperature mTemperature) {
         this.mTemperature = mTemperature;
     }
 
-    public void setSeason(AppParams.SEASON mSeason) {
+    public void setSeason(AppParams.Season mSeason) {
         this.mSeason = mSeason;
     }
+
 }

@@ -21,7 +21,7 @@ public class ActivityRecognitionService extends IntentService {
     // Custom logger
     private Logger mLog;
     // Current activity
-    private AppParams.ACTIVITY mCurrentActivity;
+    private AppParams.Activity mCurrentActivity;
     private List<DetectedActivity> mProbableActivities;
     private ContextStore mContextStore;
 
@@ -38,13 +38,13 @@ public class ActivityRecognitionService extends IntentService {
         // Extract the result of the update if it exists
         if(ActivityRecognitionResult.hasResult(intent)) {
             // Get the activity of the active context if there is one
-            mCurrentActivity = AppParams.ACTIVITY.valueOf(intent.getStringExtra(AppParams.CURRENT_CONTEXT_ACTIVITY));
+            mCurrentActivity = AppParams.Activity.valueOf(intent.getStringExtra(AppParams.CURRENT_CONTEXT_ACTIVITY));
             ActivityRecognitionResult result = ActivityRecognitionResult.extractResult(intent);
             DetectedActivity activity = result.getMostProbableActivity();
             mProbableActivities = result.getProbableActivities();
             int activityType = activity.getType();
             int confidence = activity.getConfidence();
-            AppParams.ACTIVITY detectedContextActivity = determineActivity(activityType);
+            AppParams.Activity detectedContextActivity = determineActivity(activityType);
             if (confidence > AppParams.MINIMUM_CONFIDENCE){
                 if(mCurrentActivity != null){
                     if (detectedContextActivity != mCurrentActivity){
@@ -60,27 +60,27 @@ public class ActivityRecognitionService extends IntentService {
     }
 
     // Determines the context activity parameter
-    private AppParams.ACTIVITY determineActivity(int activity){
+    private AppParams.Activity determineActivity(int activity){
         switch(activity){
             case DetectedActivity.STILL:
-                return AppParams.ACTIVITY.valueOf("NONE");
+                return AppParams.Activity.NONE;
             case DetectedActivity.WALKING:
-                return AppParams.ACTIVITY.valueOf("WALKING");
+                return AppParams.Activity.WALKING;
             case DetectedActivity.RUNNING:
-                return AppParams.ACTIVITY.valueOf("RUNNING");
+                return AppParams.Activity.RUNNING;
             case DetectedActivity.ON_FOOT:
                 return resolveOnFoot(mProbableActivities);
             case DetectedActivity.ON_BICYCLE:
-                return AppParams.ACTIVITY.valueOf("CYCLING");
+                return AppParams.Activity.CYCLING;
             case DetectedActivity.IN_VEHICLE:
                 return resolveInVehicle();
             default:
-                return AppParams.ACTIVITY.valueOf("NONE");
+                return AppParams.Activity.NONE;
         }
     }
 
     // Determines whether the activity is walking or running if the service returns ON_FOOT
-    private AppParams.ACTIVITY resolveOnFoot(List<DetectedActivity> probableActivities){
+    private AppParams.Activity resolveOnFoot(List<DetectedActivity> probableActivities){
         int walkingConfidence = 0;
         int runningConfidence = 0;
         for (DetectedActivity da : probableActivities){
@@ -92,14 +92,14 @@ public class ActivityRecognitionService extends IntentService {
             }
         }
         if (runningConfidence > walkingConfidence) {
-            return AppParams.ACTIVITY.valueOf("RUNNING");
+            return AppParams.Activity.RUNNING;
         }
-        return AppParams.ACTIVITY.valueOf("WALKING");
+        return AppParams.Activity.WALKING;
     }
 
     // Determine whether activity is commuting or travelling
-    private AppParams.ACTIVITY resolveInVehicle() {
-        return AppParams.ACTIVITY.valueOf("NONE");
+    private AppParams.Activity resolveInVehicle() {
+        return AppParams.Activity.NONE;
     }
 
 }

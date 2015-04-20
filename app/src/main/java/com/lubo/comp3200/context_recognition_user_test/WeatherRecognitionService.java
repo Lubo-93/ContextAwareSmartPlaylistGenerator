@@ -49,10 +49,10 @@ public class WeatherRecognitionService extends IntentService{
             // Traverse the JSON stream
             JSONObject JSONSubObj = new JSONObject(JSONResponse.getString("current_observation"));
             // Get the temperature and weather
-            AppParams.TEMPERATURE temperature = determineTemperature(JSONSubObj.getString("temp_c"));
-            AppParams.WEATHER weather = determineWeather(JSONSubObj.getString("weather"));
+            AppParams.Temperature temperature = determineTemperature(JSONSubObj.getString("temp_c"));
+            AppParams.Weather weather = determineWeather(JSONSubObj.getString("weather"));
 
-            AppParams.WEATHER mCurrentWeather = AppParams.WEATHER.valueOf(intent.getStringExtra(AppParams.CURRENT_CONTEXT_WEATHER));
+            AppParams.Weather mCurrentWeather = AppParams.Weather.valueOf(intent.getStringExtra(AppParams.CURRENT_CONTEXT_WEATHER));
             if (mCurrentWeather != null){
 
             }else {
@@ -69,30 +69,30 @@ public class WeatherRecognitionService extends IntentService{
         }
     }
 
-    private AppParams.WEATHER determineWeather(String weather) {
+    private AppParams.Weather determineWeather(String weather) {
         if(weather.contains("Clear") || weather.contains("Scattered") || weather.equals("Partly Cloudy")) {
-            return AppParams.WEATHER.valueOf("SUNNY");
+            return AppParams.Weather.valueOf("SUNNY");
         }else if(weather.contains("Cloudy") || weather.equals("Partly Sunny")
                 || weather.contains("Mist") || weather.contains("Fog")){
-            return AppParams.WEATHER.valueOf("CLOUDY");
+            return AppParams.Weather.valueOf("CLOUDY");
         }else if(weather.contains("Rain") || weather.contains("Drizzle")){
-            return AppParams.WEATHER.valueOf("RAINY");
+            return AppParams.Weather.valueOf("RAINY");
         }else if(weather.contains("storm")){
-            return AppParams.WEATHER.valueOf("STORMY");
+            return AppParams.Weather.valueOf("STORMY");
         }else if(weather.contains("Snow")){
-            return AppParams.WEATHER.valueOf("SNOW");
+            return AppParams.Weather.valueOf("SNOW");
         }
-        return AppParams.WEATHER.valueOf("NONE");
+        return AppParams.Weather.valueOf("NONE");
     }
 
-    private AppParams.TEMPERATURE determineTemperature(String temp) {
+    private AppParams.Temperature determineTemperature(String temp) {
         Double tempConverted = Double.parseDouble(temp);
         if (tempConverted > AppParams.TEMP_THRESHOLD) {
-            return AppParams.TEMPERATURE.valueOf("HOT");
+            return AppParams.Temperature.valueOf("HOT");
         }else if (tempConverted < AppParams.TEMP_THRESHOLD){
-            return AppParams.TEMPERATURE.valueOf("COLD");
+            return AppParams.Temperature.valueOf("COLD");
         }
-        return AppParams.TEMPERATURE.valueOf("NONE");
+        return AppParams.Temperature.valueOf("NONE");
     }
 
 

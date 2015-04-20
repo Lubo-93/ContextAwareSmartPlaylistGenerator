@@ -31,9 +31,9 @@ public class ActivityRecognitionScan implements
     // Tag for logs
     private final String APPTAG = "ActivityRecgonitionScan";
     // The activity of the active context
-    private AppParams.ACTIVITY mCurrentActivity;
+    private AppParams.Activity mCurrentActivity;
 
-    public ActivityRecognitionScan(Activity activityContext, AppParams.ACTIVITY activity){
+    public ActivityRecognitionScan(Activity activityContext, AppParams.Activity activity){
         // Save the context
         mActivity = activityContext;
         mCurrentActivity = activity;
