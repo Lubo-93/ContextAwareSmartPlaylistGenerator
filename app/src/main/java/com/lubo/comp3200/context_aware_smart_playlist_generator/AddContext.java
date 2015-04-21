@@ -1,12 +1,9 @@
-package com.lubo.comp3200.context_recognition_user_test;
+package com.lubo.comp3200.context_aware_smart_playlist_generator;
 
 import android.app.DatePickerDialog;
-import android.app.Dialog;
-import android.app.DialogFragment;
 import android.app.TimePickerDialog;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.text.format.DateFormat;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -46,7 +43,8 @@ public class AddContext extends ActionBarActivity implements AdapterView.OnItemS
     private int mSelectedMinutes;
     // Flag to indicate whether the time picker or the range picker is active
     private boolean isRange;
-
+    // Location store to retrieve the names of all the locations
+    private LocationStore mLocationStore;
 
 
     @Override
@@ -54,6 +52,7 @@ public class AddContext extends ActionBarActivity implements AdapterView.OnItemS
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_context);
         setTitle("Add New Context");
+        mLocationStore = new LocationStore(this);
         setupUI();
         // Set range false initially
         isRange = false;
@@ -74,7 +73,11 @@ public class AddContext extends ActionBarActivity implements AdapterView.OnItemS
         mSeasonSpinner = (Spinner) findViewById(R.id.season_spinner);
         // Populate spinners
         mActivitySpinner.setAdapter(new ArrayAdapter<AppParams.Activity>(this, android.R.layout.simple_spinner_item, AppParams.Activity.values()));
-        mLocationSpinner.setAdapter(new ArrayAdapter<AppParams.LOCATION>(this, android.R.layout.simple_spinner_item, AppParams.LOCATION.values()));
+        // Get the ids of all locations to populate the location spinner
+        ArrayList<String> locationIds = mLocationStore.getAllLocationsIs();
+        locationIds.add(AppParams.ADD_NEW_LOCATION);
+        locationIds.add(AppParams.NO_LOCATION);
+        mLocationSpinner.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, locationIds));
         // ArrayAdapter for the time spinner; contains the parts of day with two extra options
         ArrayList<String> timeValues = new ArrayList<String>(7);
         AppParams.PartOfDay[] partsOfDay = AppParams.PartOfDay.values();
@@ -107,10 +110,13 @@ public class AddContext extends ActionBarActivity implements AdapterView.OnItemS
         AppParams.Season season = AppParams.Season.valueOf(mSeasonSpinner.getSelectedItem().toString());
 
     }
-    // ItemSelected listener for the time spinner
+    // ItemSelected listener for the time and location spinners
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         String item = parent.getItemAtPosition(position).toString();
+        if (item.equals(AppParams.ADD_NEW_LOCATION)) {
+
+        }
         if (item.equals(AppParams.SPECIFIC_TIME) || item.equals(AppParams.SPECIFIC_TIME_RANGE)) {
             // Add a table row for time input
             TableRow timeRow = new TableRow(this);

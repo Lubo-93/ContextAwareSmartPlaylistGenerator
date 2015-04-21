@@ -1,4 +1,4 @@
-package com.lubo.comp3200.context_recognition_user_test;
+package com.lubo.comp3200.context_aware_smart_playlist_generator;
 
 /**
  * Created by Lyubomir on 27/02/2015.
@@ -8,7 +8,7 @@ public class Context {
     // Context parameters
     private String mName;
     private AppParams.Activity mActivity;
-    private SimpleGeofence mLocation;
+    private Location mLocation;
     private Time mTime;
     private int mDuration;
     private AppParams.Weather mWeather;
@@ -17,7 +17,7 @@ public class Context {
 
     public Context(String mName,
                    AppParams.Activity mActivity,
-                   SimpleGeofence mLocation,
+                   Location mLocation,
                    Time mTime,
                    int mDuration,
                    AppParams.Weather mWeather,
@@ -48,7 +48,7 @@ public class Context {
     public String getName(){
         return mName;
     }
-    public SimpleGeofence getLocation() {
+    public Location getLocation() {
         return mLocation;
     }
     public Time getTime() {
@@ -79,7 +79,7 @@ public class Context {
         this.mActivity = mActivity;
     }
 
-    public void setLocation(SimpleGeofence mLocation) {
+    public void setLocation(Location mLocation) {
         this.mLocation = mLocation;
     }
 

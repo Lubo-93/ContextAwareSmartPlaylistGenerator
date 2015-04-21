@@ -1,4 +1,4 @@
-package com.lubo.comp3200.context_recognition_user_test;
+package com.lubo.comp3200.context_aware_smart_playlist_generator;
 
 import android.app.Activity;
 import android.app.PendingIntent;
@@ -8,8 +8,8 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesClient;
-import com.google.android.gms.location.ActivityRecognitionClient;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.ActivityRecognition;
 
 /**
  * Created by Lubo on 11.2.2015.
@@ -17,15 +17,15 @@ import com.google.android.gms.location.ActivityRecognitionClient;
  * A class that starts or stops the scanning of user activity
  */
 public class ActivityRecognitionScan implements
-        GooglePlayServicesClient.ConnectionCallbacks,
-        GooglePlayServicesClient.OnConnectionFailedListener{
+        GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener{
 
     // Reference to the calling activity
     private final Activity mActivity;
     // PendingIntent used to send updates about the activity
     private PendingIntent mActivityScanPendingIntent;
-    // ActivityRecognition client used to determine the current activity
-    private ActivityRecognitionClient mClient;
+    // GoogleApiClient to connect to activity recognition services
+    private GoogleApiClient mGoogleApiClient;
     // Custom logger
     private Logger log;
     // Tag for logs
@@ -44,16 +44,20 @@ public class ActivityRecognitionScan implements
     // Start the scanning of activity recognition - activity won't be recognised until the client has connected
     public void startActivityRecognitionScan() {
         // Instantiate the ActivityRecognitionClient and connect it to Location Services
-        mClient = new ActivityRecognitionClient(mActivity, this, this);
-        mClient.connect();
-        Message status = new Message(APPTAG, "Connection activity recognition client");
+         mGoogleApiClient = new GoogleApiClient.Builder(mActivity)
+                .addApi(ActivityRecognition.API)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .build();
+        mGoogleApiClient.connect();
+        Message status = new Message(APPTAG, "Requested connection to Activity Recognition services");
         log.addMessage(status);
     }
 
     // Stop activity recognition scanning
     public void stopActivityRecognitionScan(){
         try{
-            mClient.removeActivityUpdates(mActivityScanPendingIntent);
+            ActivityRecognition.ActivityRecognitionApi.removeActivityUpdates(mGoogleApiClient, mActivityScanPendingIntent);
             Message status = new Message(APPTAG, "Activity recognition scan stopped");
             log.addMessage(status);
         }catch (Exception e){
@@ -76,17 +80,17 @@ public class ActivityRecognitionScan implements
                                                                 0,
                                                                 intent,
                                                                 PendingIntent.FLAG_UPDATE_CURRENT);
-        mClient.requestActivityUpdates(AppParams.ACTIVITY_UPDATE_INTERVAL, mActivityScanPendingIntent);
+        ActivityRecognition.ActivityRecognitionApi.requestActivityUpdates(mGoogleApiClient, AppParams.ACTIVITY_UPDATE_INTERVAL, mActivityScanPendingIntent);
         status = new Message(APPTAG, "Activity recognition updates requested");
         log.addMessage(status);
     }
 
     // When disconnected, log a message and destroy the client
     @Override
-    public void onDisconnected() {
+    public void onConnectionSuspended(int i) {
         Message status = new Message(APPTAG, "Client disconnected");
         log.addMessage(status);
-        mClient = null;
+        mGoogleApiClient = null;
     }
 
     // If a connection request fails, log the error and try to resovle it
@@ -98,9 +102,9 @@ public class ActivityRecognitionScan implements
             try{
                 connectionResult.startResolutionForResult(mActivity, AppParams.CONNECTION_FAILURE_RESOLUTION_REQUEST);
                 status = new Message(APPTAG, "Connection error. Attempting resolution");
+                log.addMessage(status);
             } catch (IntentSender.SendIntentException e) {
                 String error = Log.getStackTraceString(e);
-                Log.d(APPTAG, error);
                 status = new Message(APPTAG, "Connection error could not be resolved");
                 status.setExtra(error);
                 log.addMessage(status);

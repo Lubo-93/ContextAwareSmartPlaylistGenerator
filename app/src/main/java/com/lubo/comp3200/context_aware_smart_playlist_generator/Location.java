@@ -1,11 +1,11 @@
-package com.lubo.comp3200.context_recognition_user_test;
+package com.lubo.comp3200.context_aware_smart_playlist_generator;
 
-
+import com.google.android.gms.location.Geofence;
 /**
  * A single Geofence object, defined by its center and radius.
  * Code heavily based on Google's examples
  */
-public class SimpleGeofence {
+public class Location {
     // Instance variables
     private final String mId;
     private final double mLatitude;
@@ -14,9 +14,9 @@ public class SimpleGeofence {
     private long mExpirationDuration;
     private int mTransitionType;
 
-    public SimpleGeofence(String geofenceId, double latitude, double longitude, float radius,
-                          long expiration,
-                          int transition) {
+    public Location(String geofenceId, double latitude, double longitude, float radius,
+                    long expiration,
+                    int transition) {
         // Set the instance fields from the constructor
         this.mId = geofenceId;
         this.mLatitude = latitude;
@@ -46,9 +46,9 @@ public class SimpleGeofence {
     }
 
     // Creates a Location Services Geofence object from a SimpleGeofence.
-    public com.google.android.gms.location.Geofence toGeofence() {
+    public Geofence toGeofence() {
         // Build a new Geofence object
-        return new com.google.android.gms.location.Geofence.Builder().setRequestId(getId())
+        return new Geofence.Builder().setRequestId(getId())
                 .setTransitionTypes(mTransitionType)
                 .setCircularRegion(getLatitude(), getLongitude(), getRadius())
                 .setExpirationDuration(mExpirationDuration)

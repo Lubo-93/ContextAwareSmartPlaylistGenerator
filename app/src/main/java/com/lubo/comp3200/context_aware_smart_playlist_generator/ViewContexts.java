@@ -1,18 +1,13 @@
-package com.lubo.comp3200.context_recognition_user_test;
+package com.lubo.comp3200.context_aware_smart_playlist_generator;
 
 import android.app.ListActivity;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class ViewContexts extends ListActivity {

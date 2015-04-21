@@ -3,7 +3,7 @@
      xmlns:tools="http://schemas.android.com/tools"
      android:layout_width="match_parent"
      android:layout_height="match_parent"
-     tools:context="com.lubo.comp3200.context_recognition_user_test.AddContext">
+     tools:context="com.lubo.comp3200.context_aware_smart_playlist_generator.AddContext">
     <TableLayout
         android:id="@+id/add_context_table"
         android:layout_width="match_parent"

@@ -1,5 +1,8 @@
-package com.lubo.comp3200.context_recognition_user_test;
+package com.lubo.comp3200.context_aware_smart_playlist_generator;
 
+
+
+import com.google.android.gms.location.GeofenceStatusCodes;
 
 /**
  * Created by Lubo on 18.1.2015.
@@ -9,8 +12,8 @@ package com.lubo.comp3200.context_recognition_user_test;
  */
 public class AppParams {
 
-    // Used to track what type of geofence removal request was made.
-    public enum REMOVE_TYPE {INTENT, LIST}
+    // Package name
+    public final static String PACKAGE_NAME = "com.lubo.comp3200.context_aware_smart_playlist_generator";
 
     // Used to track what type of request is in process
     public enum REQUEST_TYPE {ADD, REMOVE}
@@ -82,9 +85,6 @@ public class AppParams {
         }
 
     }
-
-    // Pre-defined locations
-    public enum LOCATION {HOME, WORK, NONE}
 
     // Pre-defined temperatures
     public enum Temperature {
@@ -184,16 +184,27 @@ public class AppParams {
     public static final int EVENING_ALARM_CODE = 3333;
     public static final int NIGHT_ALARM_CODE = 4444;
     public static final int TIME_ALARM_CODE = 5555;
+    public static final int TIME_DATE_ALARM_CODE = 6666;
+    public static final int TIME_RANGE_ALARM_CODE = 7777;
+    public static final int TIME_RANGE_DATE_ALARM_CODE = 8888;
+    public static final int REMOVE_ALARM_CODE = 9999;
 
     // Intent fiters for AlarmReceiver
-    public static final String MORNING_ALARM_FILTER = "com.lubo.comp3200.context_recognition_user_test.MORNING_ALARM";
-    public static final String NOON_ALARM_FILTER = "com.lubo.comp3200.context_recognition_user_test.NOON_ALARM";
-    public static final String AFTERNOON_ALARM_FILTER = "com.lubo.comp3200.context_recognition_user_test.AFTERNOON_ALARM";
-    public static final String EVENING_ALARM_FILTER = "com.lubo.comp3200.context_recognition_user_test.EVENING_ALARM";
-    public static final String NIGHT_ALARM_FILTER = "com.lubo.comp3200.context_recognition_user_test.NIGHT_ALARM";
-    public static final String TIME_ALARM_FILTER = "com.lubo.comp3200.context_recognition_user_test.TIME_ALARM";
+    public static final String MORNING_ALARM_FILTER = PACKAGE_NAME + ".MORNING_ALARM";
+    public static final String NOON_ALARM_FILTER = PACKAGE_NAME + ".NOON_ALARM";
+    public static final String AFTERNOON_ALARM_FILTER = PACKAGE_NAME + ".AFTERNOON_ALARM";
+    public static final String EVENING_ALARM_FILTER = PACKAGE_NAME + ".EVENING_ALARM";
+    public static final String NIGHT_ALARM_FILTER = PACKAGE_NAME + ".NIGHT_ALARM";
+    public static final String TIME_ALARM_FILTER = PACKAGE_NAME + ".TIME_ALARM";
+    public static final String TIME_DATE_ALARM_FILTER = PACKAGE_NAME + ".TIME_DATE_ALARM";
+    public static final String TIME_RANGE_ALARM_FILTER = PACKAGE_NAME + ".TIME_RANGE_ALARM";
+    public static final String TIME_RANGE_DATE_FILTER = PACKAGE_NAME + ".TIME_RANGE_DATE_ALARM";
+    public static final String REMOVE_ALARM_FILTER = PACKAGE_NAME + ".REMOVE_ALARM";
 
     public static final String SELECTED_CONTEXT_NAME = "SELECTED_CONTEXT_NAME";
+
+    public static final String ADD_NEW_LOCATION = "Add new";
+    public static final String NO_LOCATION = "None";
 
     // Intent actions
     public static final String ACTION_CONNECTION_ERROR = "ACTION_CONNECTION_ERROR";
@@ -224,6 +235,8 @@ public class AppParams {
 
 
     // Keys for flattened geofences stored in SharedPreferences
+    public static final String KEY_ID = "KEY_ID";
+
     public static final String KEY_LATITUDE = "KEY_LATITUDE";
 
     public static final String KEY_LONGITUDE = "KEY_LONGITUDE";
@@ -235,7 +248,8 @@ public class AppParams {
     public static final String KEY_TRANSITION_TYPE = "KEY_TRANSITION_TYPE";
 
     // The prefix for flattened geofence keys
-    public static final String KEY_PREFIX = "KEY";
+    public static final String KEY_PREFIX = PACKAGE_NAME + ".LOCATION";
+
 
     // Invalid values, used to test geofence storage when retrieving geofences
     public static final long INVALID_LONG_VALUE = -999l;
@@ -260,6 +274,19 @@ public class AppParams {
     // Request code to send to Google Play services
     public final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
 
+    // Converts geofence error code to human-readable string
+    public static String getErrorString(android.content.Context context, int errorCode) {
+        switch (errorCode) {
+            case GeofenceStatusCodes.GEOFENCE_NOT_AVAILABLE:
+                return context.getString(R.string.geofence_not_available);
+            case GeofenceStatusCodes.GEOFENCE_TOO_MANY_GEOFENCES:
+                return context.getString(R.string.geofence_too_many_geofences);
+            case GeofenceStatusCodes.GEOFENCE_TOO_MANY_PENDING_INTENTS:
+                return context.getString(R.string.geofence_too_many_pending_intents);
+            default:
+                return context.getString(R.string.unknown_geofence_error);
+        }
+    }
 
 
 

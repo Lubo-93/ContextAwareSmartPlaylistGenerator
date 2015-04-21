@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.lubo.comp3200.context_recognition_user_test" >
+    package="com.lubo.comp3200.context_aware_smart_playlist_generator" >
 
     <uses-sdk
         android:minSdkVersion="11"
@@ -14,13 +14,13 @@
         android:name="com.google.android.gms.version"
         android:value="@integer/google_play_services_version" />
 
-    <android:uses-permission
+    <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:maxSdkVersion="18" />
-    <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <android:uses-permission
+        android:maxSdkVersion="22" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission
         android:name="android.permission.READ_EXTERNAL_STORAGE"
-        android:maxSdkVersion="18" />
+        android:maxSdkVersion="22" />
 
     <application
         android:allowBackup="true"
@@ -28,19 +28,16 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <service
-            android:name=".ActivityRecognitionService"
+            android:name="com.lubo.comp3200.context_aware_smart_playlist_generator.ActivityRecognitionService"
             android:exported="false" />
         <service
-            android:name=".WeatherRecognitionService"
+            android:name="com.lubo.comp3200.context_aware_smart_playlist_generator.WeatherRecognitionService"
             android:exported="false" />
         <service
-            android:name=".TestService"
-            android:exported="false" />
-        <service
-            android:name=".ReceiveTransitionsIntentService"
+            android:name="com.lubo.comp3200.context_aware_smart_playlist_generator.GeofenceTransitionsIntentService"
             android:exported="false" />
 
-        <receiver android:name=".AlarmReceiver" >
+        <receiver android:name="com.lubo.comp3200.context_aware_smart_playlist_generator.AlarmReceiver" >
             <intent-filter>
                 <action android:name="com.lubo.comp3200.context_recognition_user_test.MORNING_ALARM" />
             </intent-filter>
@@ -59,10 +56,22 @@
             <intent-filter>
                 <action android:name="com.lubo.comp3200.context_recognition_user_test.TIME_ALARM" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="com.lubo.comp3200.context_recognition_user_test.TIME_DATE_ALARM" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.lubo.comp3200.context_recognition_user_test.TIME_RANGE_ALARM" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.lubo.comp3200.context_recognition_user_test.TIME_RANGE_DATE_ALARM" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.lubo.comp3200.context_recognition_user_test.REMOVE_ALARM" />
+            </intent-filter>
         </receiver>
 
         <activity
-            android:name=".Main"
+            android:name="com.lubo.comp3200.context_aware_smart_playlist_generator.Main"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -71,28 +80,28 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".AddContext"
+            android:name="com.lubo.comp3200.context_aware_smart_playlist_generator.AddContext"
             android:label="@string/title_activity_add_context"
-            android:parentActivityName=".Main" >
+            android:parentActivityName="com.lubo.comp3200.context_aware_smart_playlist_generator.Main" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.lubo.comp3200.context_recognition_user_test.Main" />
+                android:value="com.lubo.comp3200.context_aware_smart_playlist_generator.Main" />
         </activity>
         <activity
-            android:name=".ViewContexts"
+            android:name="com.lubo.comp3200.context_aware_smart_playlist_generator.ViewContexts"
             android:label="@string/title_activity_view_contexts"
-            android:parentActivityName=".Main" >
+            android:parentActivityName="com.lubo.comp3200.context_aware_smart_playlist_generator.Main" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.lubo.comp3200.context_recognition_user_test.Main" />
+                android:value="com.lubo.comp3200.context_aware_smart_playlist_generator.Main" />
         </activity>
         <activity
-            android:name=".IndividualContextView"
+            android:name="com.lubo.comp3200.context_aware_smart_playlist_generator.IndividualContextView"
             android:label="@string/title_activity_individual_context_view"
-            android:parentActivityName=".ViewContexts" >
+            android:parentActivityName="com.lubo.comp3200.context_aware_smart_playlist_generator.ViewContexts" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.lubo.comp3200.context_recognition_user_test.ViewContexts" />
+                android:value="com.lubo.comp3200.context_aware_smart_playlist_generator.ViewContexts" />
         </activity>
     </application>
 

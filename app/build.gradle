@@ -5,7 +5,7 @@ android {
     buildToolsVersion '22.0.0'
 
     defaultConfig {
-        applicationId "com.lubo.comp3200.context_recognition_user_test"
+        applicationId "com.lubo.comp3200.context_aware_smart_playlist_generator"
         minSdkVersion 17
         targetSdkVersion 22
         versionCode 1
@@ -22,6 +22,6 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:22.0.0'
-    compile 'com.google.android.gms:play-services:6.1.+'
+    compile 'com.google.android.gms:play-services:7.0.0'
     compile files('libs/gson-2.3.1.jar')
 }

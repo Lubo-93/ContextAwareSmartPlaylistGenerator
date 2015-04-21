@@ -1,14 +1,13 @@
-package com.lubo.comp3200.context_recognition_user_test;
+package com.lubo.comp3200.context_aware_smart_playlist_generator;
 
 import android.app.Activity;
-import android.app.PendingIntent;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesClient;
-import com.google.android.gms.location.LocationClient;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
 
 /**
  * Gets the current location and requests weather conditions for it
@@ -17,10 +16,10 @@ import com.google.android.gms.location.LocationClient;
  * Created by Lyubomir on 25/03/2015.
  */
 public class WeatherRecognitonScan implements
-        GooglePlayServicesClient.ConnectionCallbacks,
-        GooglePlayServicesClient.OnConnectionFailedListener{
+        GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener{
 
-    private LocationClient mLocationClient;
+    private GoogleApiClient mGoogleApiClient;
     // Calling activity
     private Activity mActivity;
     // The weather of active context
@@ -29,19 +28,23 @@ public class WeatherRecognitonScan implements
     public WeatherRecognitonScan(Activity activityContext, AppParams.Weather currentWeather){
         mActivity = activityContext;
         mCurrentWeather = currentWeather;
-        mLocationClient = new LocationClient(mActivity, this, this);
+        mGoogleApiClient = new GoogleApiClient.Builder(mActivity)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
     }
 
     // Starts the process of getting weather information for the current location
     public void startWeatherRecognitionScan() {
-        mLocationClient.connect();
+        mGoogleApiClient.connect();
     }
 
     /* When the location client connects, get the last known location and start the
         Weather Recognition Service, passing it the coordinates */
     @Override
     public void onConnected(Bundle bundle) {
-        Location currentLocation = mLocationClient.getLastLocation();
+        Location currentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         Double lat = currentLocation.getLatitude();
         Double lng = currentLocation.getLongitude();
         Intent intent = new Intent(mActivity, WeatherRecognitionService.class);
@@ -52,8 +55,8 @@ public class WeatherRecognitonScan implements
     }
 
     @Override
-    public void onDisconnected() {
-
+    public void onConnectionSuspended(int i) {
+        
     }
 
     @Override

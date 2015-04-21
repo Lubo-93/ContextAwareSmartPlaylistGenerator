@@ -1,6 +1,4 @@
-package com.lubo.comp3200.context_recognition_user_test;
-
-import java.util.Date;
+package com.lubo.comp3200.context_aware_smart_playlist_generator;
 
 /**
  * Time context parameter.

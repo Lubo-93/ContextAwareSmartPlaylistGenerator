@@ -1,10 +1,7 @@
-package com.lubo.comp3200.context_recognition_user_test;
+package com.lubo.comp3200.context_aware_smart_playlist_generator;
 
 import android.app.IntentService;
 import android.content.Intent;
-import android.util.Log;
-
-import com.google.gson.Gson;
 
 import org.json.JSONObject;
 

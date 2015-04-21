@@ -1,5 +1,7 @@
-package com.lubo.comp3200.context_recognition_user_test;
+package com.lubo.comp3200.context_aware_smart_playlist_generator;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.*;
 import android.content.Context;
 
@@ -25,7 +27,17 @@ public class AlarmReceiver extends BroadcastReceiver {
             case AppParams.NIGHT_ALARM_FILTER:
                 ContextParams.CURRENT_DAY_PART = AppParams.PartOfDay.NIGHT;
             case AppParams.TIME_ALARM_FILTER:
-                // TODO: Some stuff
+
+            case AppParams.TIME_DATE_ALARM_FILTER:
+
+            case AppParams.TIME_RANGE_ALARM_FILTER:
+
+            case AppParams.TIME_RANGE_DATE_FILTER:
+
+            case AppParams.REMOVE_ALARM_FILTER:
+                AlarmManager alarmManager = (AlarmManager) context.getSystemService(context.ALARM_SERVICE);
+                PendingIntent alarmIntent = PendingIntent.getBroadcast(context, AppParams.REMOVE_ALARM_CODE, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+                alarmManager.cancel(alarmIntent);
         }
 
     }

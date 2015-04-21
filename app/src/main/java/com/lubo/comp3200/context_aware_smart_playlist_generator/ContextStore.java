@@ -1,8 +1,7 @@
-package com.lubo.comp3200.context_recognition_user_test;
+package com.lubo.comp3200.context_aware_smart_playlist_generator;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import com.google.gson.Gson;
 
@@ -124,16 +123,17 @@ public final class ContextStore {
         }*/
         // Sort by time
         if (context.getTime().getType() == AppParams.TypeOfTime.DAY_SECTION) {
-            if (context.getPartOfDay() != AppParams.PartOfDay.NONE) {
-                if (context.getPartOfDay() == AppParams.PartOfDay.MORNING) {
+            AppParams.PartOfDay partOfDay = context.getTime().getPartOfDay();
+            if (partOfDay != AppParams.PartOfDay.NONE) {
+                if (partOfDay == AppParams.PartOfDay.MORNING) {
                     mMorningContexts.add(context);
-                } else if (context.getPartOfDay() == AppParams.PartOfDay.NOON) {
+                } else if (partOfDay == AppParams.PartOfDay.NOON) {
                     mNoonContexts.add(context);
-                } else if (context.getPartOfDay() == AppParams.PartOfDay.AFTERNOON) {
+                } else if (partOfDay == AppParams.PartOfDay.AFTERNOON) {
                     mAfternoonContexts.add(context);
-                } else if (context.getPartOfDay() == AppParams.PartOfDay.EVENING) {
+                } else if (partOfDay == AppParams.PartOfDay.EVENING) {
                     mNightContexts.add(context);
-                } else if (context.getPartOfDay() == AppParams.PartOfDay.NIGHT) {
+                } else if (partOfDay == AppParams.PartOfDay.NIGHT) {
                     mEveningContexts.add(context);
                 }
             }

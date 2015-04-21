@@ -1,4 +1,4 @@
-package com.lubo.comp3200.context_recognition_user_test;
+package com.lubo.comp3200.context_aware_smart_playlist_generator;
 
 import android.app.Activity;
 import android.app.AlarmManager;
@@ -6,7 +6,6 @@ import android.app.PendingIntent;
 import android.content.Intent;
 
 import java.util.Calendar;
-import java.util.Date;
 
 /**
  * Created by Lyubomir on 06/04/2015.
@@ -101,25 +100,76 @@ public class TimeManager {
         }
     }
 
+    // Add an alarm for a context with specific time
     public void addAlarm(Context context) {
         Intent intent = new Intent(mActivity, AlarmReceiver.class);
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-        // 24 hours in milliseconds
-        int dayInMillis = 1000 * 60 * 60 * 24;
+        // Interval for alarm repeats in milliseconds
+        int alarmInterval = 1000 * 60 * 60 * 24;
+        // The context time and time type
         Time contextTime = context.getTime();
         AppParams.TypeOfTime typeOfTime = contextTime.getType();
-        int year = contextTime.getYear();
-        int month = contextTime.getMonth();
-        int day = contextTime.getDay();
-        if (typeOfTime == AppParams.TypeOfTime.TIME || typeOfTime == AppParams.TypeOfTime.DATE
-                || typeOfTime == AppParams.TypeOfTime.TIME_DATE) {
+        // Set time of calendar based on context
+        if (typeOfTime == AppParams.TypeOfTime.TIME) {
+            int hour = contextTime.getTimeHour();
+            int mins = contextTime.getTimeMins();
+            calendar.set(Calendar.HOUR_OF_DAY, hour);
+            calendar.set(Calendar.MINUTE, mins);
             intent.setAction(AppParams.TIME_ALARM_FILTER);
             mSpecificTimeIntent = PendingIntent.getBroadcast(mActivity, AppParams.TIME_ALARM_CODE, intent, 0);
-
-            mAlarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), dayInMillis, mSpecificTimeIntent);
-            context.setIsActive(true);
+        }else if (typeOfTime == AppParams.TypeOfTime.TIME_DATE) {
+            int year = contextTime.getYear();
+            int month = contextTime.getMonth();
+            int day = contextTime.getDay();
+            int hour = contextTime.getTimeHour();
+            int mins = contextTime.getTimeMins();
+            calendar.set(Calendar.YEAR, year);
+            calendar.set(Calendar.MONTH, month);
+            calendar.set(Calendar.DAY_OF_MONTH, day);
+            calendar.set(Calendar.HOUR_OF_DAY, hour);
+            calendar.set(Calendar.MINUTE, mins);
+            intent.setAction(AppParams.TIME_DATE_ALARM_FILTER);
+            mSpecificTimeIntent = PendingIntent.getBroadcast(mActivity, AppParams.TIME_DATE_ALARM_CODE, intent, 0);
+        }else if (typeOfTime == AppParams.TypeOfTime.TIME_RANGE) {
+            alarmInterval = 1000 * 60 * 5;
+            int rangeHour = contextTime.getRangeHour();
+            int rangeMins = contextTime.getRangeMins();
+            calendar.set(Calendar.HOUR_OF_DAY, rangeHour);
+            calendar.set(Calendar.MINUTE, rangeMins);
+            stopAlarm(calendar);
+            int timeHour = contextTime.getTimeHour();
+            int timeMins = contextTime.getTimeMins();
+            calendar.set(Calendar.HOUR_OF_DAY, timeHour);
+            calendar.set(Calendar.MINUTE, timeMins);
+            intent.setAction(AppParams.TIME_RANGE_ALARM_FILTER);
+            mSpecificTimeIntent = PendingIntent.getBroadcast(mActivity, AppParams.TIME_RANGE_ALARM_CODE, intent, 0);
+        }else if (typeOfTime == AppParams.TypeOfTime.TIME_RANGE_DATE) {
+            alarmInterval = 1000 * 60 * 5;
+            int rangeHour = contextTime.getRangeHour();
+            int rangeMins = contextTime.getRangeMins();
+            calendar.set(Calendar.HOUR_OF_DAY, rangeHour);
+            calendar.set(Calendar.MINUTE, rangeMins);
+            stopAlarm(calendar);
+            int timeHour = contextTime.getTimeHour();
+            int timeMins = contextTime.getTimeMins();
+            int year = contextTime.getYear();
+            int month = contextTime.getMonth();
+            int day = contextTime.getDay();
+            calendar.set(Calendar.YEAR, year);
+            calendar.set(Calendar.MONTH, month);
+            calendar.set(Calendar.DAY_OF_MONTH, day);
+            calendar.set(Calendar.HOUR_OF_DAY, timeHour);
+            calendar.set(Calendar.MINUTE, timeMins);
+            intent.setAction(AppParams.TIME_RANGE_DATE_FILTER);
+            mSpecificTimeIntent = PendingIntent.getBroadcast(mActivity, AppParams.TIME_RANGE_DATE_ALARM_CODE, intent, 0);
         }
+        mAlarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), alarmInterval, mSpecificTimeIntent);
+
+    }
+
+    // Stop an alarm started by a time specific context
+    public void stopAlarm(Calendar calendar) {
 
     }
 

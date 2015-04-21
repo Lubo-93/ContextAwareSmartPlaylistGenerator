@@ -1,4 +1,4 @@
-package com.lubo.comp3200.context_recognition_user_test;
+package com.lubo.comp3200.context_aware_smart_playlist_generator;
 
 
 import java.util.Calendar;
