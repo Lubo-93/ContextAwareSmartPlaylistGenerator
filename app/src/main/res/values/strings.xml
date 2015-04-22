@@ -59,4 +59,5 @@
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_view_contexts">ViewContexts</string>
     <string name="title_activity_individual_context_view">IndividualContextView</string>
+    <string name="title_activity_add_location_map">AddLocationMap</string>
 </resources>

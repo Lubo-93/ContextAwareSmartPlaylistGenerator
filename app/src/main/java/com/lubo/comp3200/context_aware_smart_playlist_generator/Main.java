@@ -1,5 +1,6 @@
 package com.lubo.comp3200.context_aware_smart_playlist_generator;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -23,7 +24,7 @@ public class Main extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ContextStore.getInstance().initialSetup(this);
+       /* ContextStore.getInstance().initialSetup(this);
         mPrefs = this.getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
         mParser = new ContextParser(this);
         if (checkFirstStart()){
@@ -34,7 +35,7 @@ public class Main extends ActionBarActivity {
             setup.execute();
         }
 
-        mScheduler = new Scheduler(this);
+        mScheduler = new Scheduler(this);*/
 
 
     }

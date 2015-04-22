@@ -1,9 +1,13 @@
 package com.lubo.comp3200.context_aware_smart_playlist_generator;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.FragmentTransaction;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,16 +15,19 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TimePicker;
 
+import com.google.android.gms.maps.MapFragment;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 
 
-public class AddContext extends ActionBarActivity implements AdapterView.OnItemSelectedListener {
+public class AddContext extends ActionBarActivity {
 
     // UI handles
     private EditText mNameInput;
@@ -66,7 +73,6 @@ public class AddContext extends ActionBarActivity implements AdapterView.OnItemS
         mActivitySpinner = (Spinner) findViewById(R.id.activity_spinner);
         mLocationSpinner = (Spinner) findViewById(R.id.location_spinner);
         mTimeSpinner = (Spinner) findViewById(R.id.time_spinner);
-        mTimeSpinner.setOnItemSelectedListener(this);
         mDurationInput = (EditText) findViewById(R.id.duration_input);
         mWeatherSpinner = (Spinner) findViewById(R.id.weather_spinner);
         mTemperatureSpinner = (Spinner) findViewById(R.id.temperature_spinner);
@@ -75,9 +81,12 @@ public class AddContext extends ActionBarActivity implements AdapterView.OnItemS
         mActivitySpinner.setAdapter(new ArrayAdapter<AppParams.Activity>(this, android.R.layout.simple_spinner_item, AppParams.Activity.values()));
         // Get the ids of all locations to populate the location spinner
         ArrayList<String> locationIds = mLocationStore.getAllLocationsIs();
-        locationIds.add(AppParams.ADD_NEW_LOCATION);
+        // Extra options
         locationIds.add(AppParams.NO_LOCATION);
+        locationIds.add(AppParams.ADD_NEW_LOCATION);
         mLocationSpinner.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, locationIds));
+        // Attach listener
+        mLocationSpinner.setOnItemSelectedListener(new OnLocationSelectedListener());
         // ArrayAdapter for the time spinner; contains the parts of day with two extra options
         ArrayList<String> timeValues = new ArrayList<String>(7);
         AppParams.PartOfDay[] partsOfDay = AppParams.PartOfDay.values();
@@ -89,6 +98,8 @@ public class AddContext extends ActionBarActivity implements AdapterView.OnItemS
         timeValues.add(AppParams.PartOfDay.NONE.toString());
         ArrayAdapter<String> timeAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, timeValues);
         mTimeSpinner.setAdapter(timeAdapter);
+        // Attach listener
+        mTimeSpinner.setOnItemSelectedListener(new OnTimeSelectedListener(this));
         mWeatherSpinner.setAdapter(new ArrayAdapter<AppParams.Weather>(this, android.R.layout.simple_spinner_item, AppParams.Weather.values()));
         mTemperatureSpinner.setAdapter(new ArrayAdapter<AppParams.Temperature>(this, android.R.layout.simple_spinner_item, AppParams.Temperature.values()));
         mSeasonSpinner.setAdapter(new ArrayAdapter<AppParams.Season>(this, android.R.layout.simple_spinner_item, AppParams.Season.values()));
@@ -110,74 +121,19 @@ public class AddContext extends ActionBarActivity implements AdapterView.OnItemS
         AppParams.Season season = AppParams.Season.valueOf(mSeasonSpinner.getSelectedItem().toString());
 
     }
-    // ItemSelected listener for the time and location spinners
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        String item = parent.getItemAtPosition(position).toString();
-        if (item.equals(AppParams.ADD_NEW_LOCATION)) {
 
-        }
-        if (item.equals(AppParams.SPECIFIC_TIME) || item.equals(AppParams.SPECIFIC_TIME_RANGE)) {
-            // Add a table row for time input
-            TableRow timeRow = new TableRow(this);
-            timeRow.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
-            mTimeView = new EditText(this);
-            mTimeView.generateViewId();
-            mTimeView.setId(R.id.add_context_time_view);
-            mTimeView.setFocusable(false);
-            // Open the time picker on user click
-            mTimeView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    showTimePickerDialog(mSelectedHour, mSelectedMinutes, true, mOnTimeSetListener);
-                }
-            });
-            timeRow.addView(mTimeView);
-            mTable.addView(timeRow, 4);
-            // Add a table row for date input
-            TableRow dateRow = new TableRow(this);
-            dateRow.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
-            mDateView = new EditText(this);
-            mDateView.generateViewId();
-            mDateView.setId(R.id.add_context_date_view);
-            mDateView.setFocusable(false);
-            // Open the date picker on user click
-            mDateView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    showDatePickerDialog(mSelectedYear, mSelectedMonth, mSelectedDay, mOnDateSetListener);
-                }
-            });
-            dateRow.addView(mDateView);
-            // If specific time was selected, add the date row after the time row
-            if(item.equals(AppParams.SPECIFIC_TIME)){
-                mTable.addView(dateRow, 5);
-            }else{
-                // If specfic range was selected, add a table row for it and add the date row after
-                TableRow rangeRow = new TableRow(this);
-                rangeRow.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
-                mRangeView = new EditText(this);
-                mRangeView.generateViewId();
-                mRangeView.setId(R.id.add_context_range_view);
-                mRangeView.setFocusable(false);
-                // Open the time picker on user click
-                mRangeView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // Indicate that the range picker was selected
-                        isRange = true;
-                        showTimePickerDialog(mSelectedHour, mSelectedMinutes, true, mOnTimeSetListener);
-                    }
-                });
-                rangeRow.addView(mRangeView);
-                mTable.addView(rangeRow, 5);
-                mTable.addView(dateRow, 6);
-            }
-        }
-    }
-    // Method from OnItemSelected interface; not used
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
+    // Open map for creating a geofence
+    public void addMap() {
+        Intent intent = new Intent(this, AddLocationMap.class);
+        startActivity(intent);
+        /*// Open a map to set a geofence
+        MapFragment mMapFragment = MapFragment.newInstance();
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        // Get the FrameLayout that will host the map and make it visible
+        final FrameLayout mapConainer = (FrameLayout) findViewById(R.id.map_container);
+        mapConainer.setVisibility(View.VISIBLE);
+        fragmentTransaction.add(R.id.map_container, mMapFragment);
+        fragmentTransaction.commit();*/
     }
 
     // Callback for DatePicker
@@ -258,6 +214,100 @@ public class AddContext extends ActionBarActivity implements AdapterView.OnItemS
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    // Listener for location spinner
+    private class OnLocationSelectedListener implements AdapterView.OnItemSelectedListener {
+
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            String item = parent.getItemAtPosition(position).toString();
+            if (item.equals(AppParams.ADD_NEW_LOCATION)) {
+                addMap();
+            }
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+
+        }
+    }
+
+    // Listener for time spinner
+    private class OnTimeSelectedListener implements AdapterView.OnItemSelectedListener {
+
+        private Activity mCallingActivity;
+
+        private OnTimeSelectedListener (Activity activityContext){
+            mCallingActivity = activityContext;
+        }
+
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            String item = parent.getItemAtPosition(position).toString();
+            if (item.equals(AppParams.SPECIFIC_TIME) || item.equals(AppParams.SPECIFIC_TIME_RANGE)) {
+                // Add a table row for time input
+                TableRow timeRow = new TableRow(mCallingActivity);
+                timeRow.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
+                mTimeView = new EditText(mCallingActivity);
+                mTimeView.generateViewId();
+                mTimeView.setId(R.id.add_context_time_view);
+                mTimeView.setFocusable(false);
+                // Open the time picker on user click
+                mTimeView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        showTimePickerDialog(mSelectedHour, mSelectedMinutes, true, mOnTimeSetListener);
+                    }
+                });
+                timeRow.addView(mTimeView);
+                mTable.addView(timeRow, 4);
+                // Add a table row for date input
+                TableRow dateRow = new TableRow(mCallingActivity);
+                dateRow.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
+                mDateView = new EditText(mCallingActivity);
+                mDateView.generateViewId();
+                mDateView.setId(R.id.add_context_date_view);
+                mDateView.setFocusable(false);
+                // Open the date picker on user click
+                mDateView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        showDatePickerDialog(mSelectedYear, mSelectedMonth, mSelectedDay, mOnDateSetListener);
+                    }
+                });
+                dateRow.addView(mDateView);
+                // If specific time was selected, add the date row after the time row
+                if(item.equals(AppParams.SPECIFIC_TIME)){
+                    mTable.addView(dateRow, 5);
+                }else{
+                    // If specfic range was selected, add a table row for it and add the date row after
+                    TableRow rangeRow = new TableRow(mCallingActivity);
+                    rangeRow.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
+                    mRangeView = new EditText(mCallingActivity);
+                    mRangeView.generateViewId();
+                    mRangeView.setId(R.id.add_context_range_view);
+                    mRangeView.setFocusable(false);
+                    // Open the time picker on user click
+                    mRangeView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            // Indicate that the range picker was selected
+                            isRange = true;
+                            showTimePickerDialog(mSelectedHour, mSelectedMinutes, true, mOnTimeSetListener);
+                        }
+                    });
+                    rangeRow.addView(mRangeView);
+                    mTable.addView(rangeRow, 5);
+                    mTable.addView(dateRow, 6);
+                }
+            }
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+
+        }
     }
 
 
